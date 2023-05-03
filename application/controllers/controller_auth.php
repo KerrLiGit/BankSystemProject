@@ -104,7 +104,7 @@ class Controller_Auth extends Controller {
 	 *   tags={"auth"},
 	 *   summary="Выход",
 	 *   operationId="auth_signout",
-	 *   description="Функционал в виде ссылки в панели авигации, позволяющий сотруднику выйти из аккаунта.",
+	 *   description="Функционал в виде ссылки в панели навигации, позволяющий сотруднику выйти из аккаунта.",
 	 *
 	 *   @OA\Response(
 	 *      response=200,
