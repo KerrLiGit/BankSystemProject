@@ -1,5 +1,26 @@
 <?php
 
+/**
+ * @OA\OpenApi(
+ *     @OA\Info(
+ *         version="1.0.0",
+ *         title="Документация к проекту BankSystem",
+ *         description="Система проекта основана на API и имеет некоторое количество endpoint, которые и будут описаны в данной документации",
+ *         @OA\Contact(
+ *             email="bogatyreva_aa@main.ru"
+ *         ),
+ *     ),
+ *     @OA\Server(
+ *         description="OpenApi host",
+ *         url="http://localhost:8004"
+ *     ),
+ *     @OA\ExternalDocumentation(
+ *         description="Ссылка на GitHub",
+ *         url="https://github.com/KerrLiGit/BankSystemProject"
+ *     )
+ * )
+ */
+
 class Route {
 
 	static function addlog($str) {

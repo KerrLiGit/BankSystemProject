@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * @OA\Schema(
+ *     title="Controller_Auth",
+ *     description="Контроллер для просмотра состояния кредита",
+ *     @OA\Xml(
+ *         name="Controller_Operator"
+ *     )
+ * )
+ */
+
 class Controller_Graph extends Controller {
 
 	public function __construct() {
@@ -8,6 +18,54 @@ class Controller_Graph extends Controller {
 	}
 
 	/**
+	 * @OA\Get(
+	 *   path="/graph",
+	 *   tags={"graph"},
+	 *   summary="Страница оператора для просмотра состояния кредита клиента",
+	 *   operationId="graph",
+	 *   description="Страница оператора, на которой присутствует информация по кредиту клиента.",
+	 *
+	 *   @OA\Parameter(
+	 *      name="token",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *           type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="client_uuid",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *           type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="credit_id",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *           type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=200,
+	 *      description="Success",
+	 *      @OA\MediaType(
+	 *           mediaType="html",
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=403,
+	 *      description="Unauthorized (Неверный токен или роль сотрудника, или отсутствует текущий клиент)",
+	 *      @OA\MediaType(
+	 *           mediaType="html",
+	 *      )
+	 *   ),
+	 *)
+	 *
+	 * @return null
 	 * @throws Exception
 	 */
 	public function action_index() {

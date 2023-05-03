@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * @OA\Schema(
+ *     title="Controller_Client",
+ *     description="Контроллер для взаимодействия оператора со страницей клиента",
+ *     @OA\Xml(
+ *         name="Controller_Client"
+ *     )
+ * )
+ */
+
 class Controller_Client extends Controller {
 
 	public function __construct() {
@@ -8,6 +18,46 @@ class Controller_Client extends Controller {
 	}
 
 	/**
+	 * @OA\Get(
+	 *   path="/client",
+	 *   tags={"client"},
+	 *   summary="Страница оператора по работе с клиентом",
+	 *   operationId="client",
+	 *   description="Страница оператора, на которой присутствует функцилнал для работы с клиентом.",
+	 *
+	 *   @OA\Parameter(
+	 *      name="token",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *           type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="client_uuid",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *           type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=200,
+	 *      description="Success",
+	 *      @OA\MediaType(
+	 *           mediaType="html",
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=403,
+	 *      description="Unauthorized (Неверный токен или роль сотрудника, или отсутствует текущий клиент)",
+	 *      @OA\MediaType(
+	 *           mediaType="html",
+	 *      )
+	 *   ),
+	 *)
+	 *
+	 * @return null
 	 * @throws Exception
 	 */
 	public function action_index($id = null) {
@@ -28,6 +78,49 @@ class Controller_Client extends Controller {
 		}
 	}
 
+	/**
+	 * @OA\Post(
+	 *   path="/client/edit",
+	 *   tags={"client"},
+	 *   summary="Редактирование клиентских даннных",
+	 *   operationId="client_edit",
+	 *   description="Функционал в виде формы, позволяющий отредактировать личные данные клиента.",
+	 *
+	 *   @OA\Parameter(
+	 *      name="token",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *           type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="client_uuid",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *           type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=200,
+	 *      description="Success",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=403,
+	 *      description="Unauthorized (Неверный токен или роль сотрудника, или отсутствует текущий клиент)",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *)
+	 *
+	 * @return null
+	 * @throws Exception
+	 */
 	public function action_edit() {
 		Session::safe_session_start();
 		$user = Session::auth($_SESSION['token']);
@@ -47,6 +140,54 @@ class Controller_Client extends Controller {
 	}
 
 	/**
+	 * @OA\Post(
+	 *   path="/client/create_account",
+	 *   tags={"client"},
+	 *   summary="Создание счета",
+	 *   operationId="client_create_account",
+	 *   description="Функционал в виде формы, позволяющий создать счет клиента в нужной валюте.",
+	 *
+	 *   @OA\Parameter(
+	 *      name="token",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *           type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="client_uuid",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="currency",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=200,
+	 *      description="Success",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=403,
+	 *      description="Unauthorized (Неверный токен или роль сотрудника, или отсутствует текущий клиент)",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *)
+	 *
+	 * @return null
 	 * @throws Exception
 	 */
 	public function action_create_account() {
@@ -67,7 +208,48 @@ class Controller_Client extends Controller {
 		}
 	}
 
+
 	/**
+	 * @OA\Post(
+	 *   path="/client/close_account",
+	 *   tags={"client"},
+	 *   summary="Закрытие счета",
+	 *   operationId="client_close_account",
+	 *   description="Функционал в виде формы, позволяющий закрыть счет клиента с нулевым балансом по его номеру.",
+	 *
+	 *   @OA\Parameter(
+	 *      name="token",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *           type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="account_number",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=200,
+	 *      description="Success",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=403,
+	 *      description="Unauthorized (Неверный токен или роль сотрудника, или отсутствует текущий клиент)",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *)
+	 *
+	 * @return null
 	 * @throws Exception
 	 */
 	public function action_close_account() {
@@ -89,6 +271,54 @@ class Controller_Client extends Controller {
 	}
 
 	/**
+	 * @OA\Post(
+	 *   path="/client/push_account",
+	 *   tags={"client"},
+	 *   summary="Пополнение счета в кассе",
+	 *   operationId="client_push_account",
+	 *   description="Функционал в виде формы, позволяющий пополнить счет клиента на требуемую сумму при помощи кассы по номеру счета.",
+	 *
+	 *   @OA\Parameter(
+	 *      name="token",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *           type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="credit_account_number",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="sum",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="number"
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=200,
+	 *      description="Success",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=403,
+	 *      description="Unauthorized (Неверный токен или роль сотрудника, или отсутствует текущий клиент)",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *)
+	 *
+	 * @return null
 	 * @throws Exception
 	 */
 	public function action_push_account() {
@@ -110,6 +340,54 @@ class Controller_Client extends Controller {
 	}
 
 	/**
+	 * @OA\Post(
+	 *   path="/client/pop_account",
+	 *   tags={"client"},
+	 *   summary="Снятие средств со счета в кассе",
+	 *   operationId="client_pop_account",
+	 *   description="Функционал в виде формы, позволяющий снять средства со счета клиента при помощи кассы по номеру счета.",
+	 *
+	 *   @OA\Parameter(
+	 *      name="token",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *           type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="debit_account_number",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="sum",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="number"
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=200,
+	 *      description="Success",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=403,
+	 *      description="Unauthorized (Неверный токен или роль сотрудника, или отсутствует текущий клиент)",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *)
+	 *
+	 * @return null
 	 * @throws Exception
 	 */
 	public function action_pop_account() {
@@ -131,6 +409,62 @@ class Controller_Client extends Controller {
 	}
 
 	/**
+	 * @OA\Post(
+	 *   path="/client/transaction_in",
+	 *   tags={"client"},
+	 *   summary="Перевод средств между своими счетами",
+	 *   operationId="client_transaction_in",
+	 *   description="Функционал в виде формы, позволяющий перевести средства между счетами клиента по номерам счета.",
+	 *
+	 *   @OA\Parameter(
+	 *      name="token",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *           type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="debit_account_number",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="credit_account_number",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="sum",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="number"
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=200,
+	 *      description="Success",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=403,
+	 *      description="Unauthorized (Неверный токен или роль сотрудника, или отсутствует текущий клиент)",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *)
+	 *
+	 * @return null
 	 * @throws Exception
 	 */
 	public function action_transaction_in() {
@@ -153,6 +487,62 @@ class Controller_Client extends Controller {
 	}
 
 	/**
+	 * @OA\Post(
+	 *   path="/client/transaction_out",
+	 *   tags={"client"},
+	 *   summary="Перевод средств по ноеру телефона",
+	 *   operationId="client_transaction_out",
+	 *   description="Функционал в виде формы, позволяющий перевести средства другому клиенту по номерам телефона.",
+	 *
+	 *   @OA\Parameter(
+	 *      name="token",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *           type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="debit_account_number",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="credit_phone",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="sum",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="number"
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=200,
+	 *      description="Success",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=403,
+	 *      description="Unauthorized (Неверный токен или роль сотрудника, или отсутствует текущий клиент)",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *)
+	 *
+	 * @return null
 	 * @throws Exception
 	 */
 	public function action_transaction_out() {
@@ -175,6 +565,70 @@ class Controller_Client extends Controller {
 	}
 
 	/**
+	 * @OA\Post(
+	 *   path="/client/open_deposit",
+	 *   tags={"client"},
+	 *   summary="Открытие вклада",
+	 *   operationId="client_open_deposit",
+	 *   description="Функционал в виде формы, позволяющий создать вклад требуемого типа для клиента.",
+	 *
+	 *   @OA\Parameter(
+	 *      name="token",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *           type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="client_uuid",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="type",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="debit_account_number",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="sum",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="number"
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=200,
+	 *      description="Success",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=403,
+	 *      description="Unauthorized (Неверный токен или роль сотрудника, или отсутствует текущий клиент)",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *)
+	 *
+	 * @return null
 	 * @throws Exception
 	 */
 	public function action_open_deposit() {
@@ -197,6 +651,54 @@ class Controller_Client extends Controller {
 	}
 
 	/**
+	 * @OA\Post(
+	 *   path="/client/close_deposit",
+	 *   tags={"client"},
+	 *   summary="Закрытие вклада",
+	 *   operationId="client_close_deposit",
+	 *   description="Функционал в виде формы, позволяющий закрыть вклад и получить средства с него на счет.",
+	 *
+	 *   @OA\Parameter(
+	 *      name="token",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *           type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="deposit_id",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="number"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="account_number",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=200,
+	 *      description="Success",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=403,
+	 *      description="Unauthorized (Неверный токен или роль сотрудника, или отсутствует текущий клиент)",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *)
+	 *
+	 * @return null
 	 * @throws Exception
 	 */
 	public function action_close_deposit() {
@@ -218,6 +720,62 @@ class Controller_Client extends Controller {
 	}
 
 	/**
+	 * @OA\Post(
+	 *   path="/client/open_credit",
+	 *   tags={"client"},
+	 *   summary="Открытие кредита",
+	 *   operationId="client_open_credit",
+	 *   description="Функционал в виде формы, позволяющий открыть кредит требуемого типа для клиента.",
+	 *
+	 *   @OA\Parameter(
+	 *      name="token",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *           type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="client_uuid",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="type",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="sum",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="number"
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=200,
+	 *      description="Success",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=403,
+	 *      description="Unauthorized (Неверный токен или роль сотрудника, или отсутствует текущий клиент)",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *)
+	 *
+	 * @return null
 	 * @throws Exception
 	 */
 	public function action_open_credit() {
@@ -239,6 +797,46 @@ class Controller_Client extends Controller {
 	}
 
 	/**
+	 * @OA\Post(
+	 *   path="/client/close_credit",
+	 *   tags={"client"},
+	 *   summary="Закрытие кредита",
+	 *   operationId="client_close_credit",
+	 *   description="Функционал в виде формы, позволяющий закрыть кредит, если нет задолженности по нему.",
+	 *
+	 *   @OA\Parameter(
+	 *      name="token",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *           type="string"
+	 *      )
+	 *   ),
+	 *   @OA\Parameter(
+	 *      name="credit_id",
+	 *      in="query",
+	 *      required=true,
+	 *      @OA\Schema(
+	 *          type="number"
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=200,
+	 *      description="Success",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *   @OA\Response(
+	 *      response=403,
+	 *      description="Unauthorized (Неверный токен или роль сотрудника, или отсутствует текущий клиент)",
+	 *      @OA\MediaType(
+	 *           mediaType="application/json",
+	 *      )
+	 *   ),
+	 *)
+	 *
+	 * @return null
 	 * @throws Exception
 	 */
 	public function action_close_credit() {
